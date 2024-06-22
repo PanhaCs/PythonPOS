@@ -1,0 +1,57 @@
+{% include "master/index.html" %}
+<div class="container mt-5">
+
+    <div class="row">
+
+        {% for item in product_list %}
+
+        <div class="col-md-3  col-sm-6 mt-3">
+            <div class="card" style="width: 20rem; height: 450px;">
+                <center><img src="{{ item.image }}" class="card-img-top"
+                        style="width:200px; height: 200px;; object-fit:contain;" alt="..."></center>
+                <div class="card-body" style="height: 250px;">
+                    <h5 class="card-title" style="height: 60px;">
+                        {% set title = item.title.split() %}
+                        {% if title | length > 5 %}
+                        {{ title[:5] | join(' ') }}
+                        {% else %}
+                        {{ item.title }}
+                        {% endif %}
+                    </h5>
+
+
+                    <p class="card-text" style="height: 100px;">
+                        {% set words = item.description.split() %}
+                        {% if words | length > 10 %}
+                        {{ words[:10] | join(' ') }}...
+                        {% else %}
+                        {{ item.description }}
+                        {% endif %}
+                    </p>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <!-- <h5 hidden>{{ item.rating['rate'] | int }}/5 of {{ item.rating['count'] }}</h5> -->
+                            
+                            {% set full_stars = item.rating['rate'] | int %}
+                            {% set empty_stars = 5 - full_stars %}
+                            
+                            {% for _ in range(full_stars) %}
+                            <span class="fa fa-star checked"></span>
+                            {% endfor %}
+                            {% for _ in range(empty_stars) %}
+                            <span class="fa fa-star"></span>
+                            {% endfor %}
+                        </div>
+                        <!-- <h5>{{ item.rating['rate'] | int }}/5 of {{item.rating['count']}}</h5> -->
+                        <a target="_blank" href="/product_detail?id={{ item['id'] }}"
+                            class="btn btn-primary ">More...</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
